@@ -9,7 +9,7 @@ Multilingual Medical Model Based On Jamba
 
 ## 🌈 Update
 
-* **[2024.01.23]** MedJamba repo is published！🎉
+* **[2024.04.05]** MedJamba repo is published！🎉
       
    
 
