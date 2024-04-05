@@ -135,6 +135,10 @@ Multilingual Medical Model Based On Jamba
 
     
       - Multi Nodes refer to ./scripts/multi_node_train_*.sh
+       ```
+       pip install causal-conv1d>=1.2.0
+       pip install mamba-ssm
+       ```
 
        Node 0: 
        ```
