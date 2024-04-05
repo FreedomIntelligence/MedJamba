@@ -134,21 +134,26 @@ Multilingual Medical Model Based On Jamba
    4. Train the model
 
     
-      - If you want to train in Multi Nodes please refer to ./scripts/multi_node_train_*.sh
+      - Multi Nodes refer to ./scripts/multi_node_train_*.sh
 
-
+       Node 0: 
        ```
-       bash 3.single_node_train_jamba.sh
+       bash ./scripts/3.multinode_train_jamba_rank0.sh
+       ```
+       ...
+       Node 4: 
+       ```
+       bash ./scripts/3.multinode_train_jamba_rank4.sh
        ```
 
 
-   4. Evaluate your model: Generate score for benchmark
+   5. Evaluate your model: Generate score for benchmark
       
          ```
          bash 4.eval.sh
          ```
 
-   5. Evaluate your model: Play with your ckpts in bash
+   6. Evaluate your model: Play with your ckpts in bash
     
          ```
          python ./src/evaluate/cli_demo.py --model_name='./ckpts/your/path/tfmr'

@@ -1,7 +1,7 @@
 """Code for finetune_medbase"""
 import os
 os.environ['WANDB_DISABLE_CODE'] = 'true'
-os.environ["WANDB_API_KEY"]='3bf17abb57350d9a57be1dd3d2c4354780849cc6'#xidong账号log
+os.environ["WANDB_API_KEY"]=''#wandb账号log
 import json
 import torch
 import logging
@@ -197,7 +197,7 @@ def train(args):
     #     model = AutoModelForCausalLM.from_pretrained(os.path.join(args.checkpoint_path, "tfmr"), trust_remote_code=True)
     # else:
     #     model = AutoModelForCausalLM.from_pretrained(args.model_path, trust_remote_code=True)
-    model = AutoModelForCausalLM.from_pretrained(args.model_path, trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained(args.model_path, trust_remote_code=True, attn_implementation="flash_attention_2", use_mamba_kernels=True, torch_dtype=torch.bfloat16)
     
     if args.gradient_checkpointing:
         model.gradient_checkpointing_enable()
