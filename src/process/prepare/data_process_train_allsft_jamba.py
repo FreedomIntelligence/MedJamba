@@ -78,7 +78,7 @@ class SFT_data(torch.utils.data.Dataset):
         self.ignore_index = -100
         self.sep = '\n'
         self.sep_ids = self.tokenizer.encode(self.sep, add_special_tokens= False)
-        self.roles = ('<|User|>:','<|Assistant|>:')
+        self.roles = ('<|startoftext|>user\n','<|startoftext|>assistant\n')
         self.ignore_len = len(self.tokenizer.encode(self.sep + self.roles[1],add_special_tokens= False))
         self.debug = True
 

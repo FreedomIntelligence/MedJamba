@@ -1,7 +1,7 @@
 """Code for finetune_medbase"""
 import os
 os.environ['WANDB_DISABLE_CODE'] = 'true'
-os.environ["WANDB_API_KEY"]=''#wandb账号log
+os.environ["WANDB_API_KEY"]='3bf17abb57350d9a57be1dd3d2c4354780849cc6'#wandb账号log
 import json
 import torch
 import logging
@@ -306,10 +306,10 @@ def train(args):
         train_dataloader_iterator = tqdm(enumerate(train_dataloader), total=len(train_dataloader)) if accelerator.is_main_process else enumerate(train_dataloader)
         for batch_cnt, batch in train_dataloader_iterator:
 
-            if (epoch==start_epoch and batch_cnt<start_step) or epoch<start_epoch:
-                # if (batch_cnt+1) % accelerator.gradient_accumulation_steps == 0:
-                #     lr_scheduler.step()
-                continue
+            # if (epoch==start_epoch and batch_cnt<start_step) or epoch<start_epoch:
+            #     # if (batch_cnt+1) % accelerator.gradient_accumulation_steps == 0:
+            #     #     lr_scheduler.step()
+            #     continue
 
             if batch_cnt == 1 and epoch == 0:
                 torch.cuda.empty_cache()
@@ -317,7 +317,7 @@ def train(args):
             input_ids=batch['input_ids']
             labels=batch['labels']
 
-            output = model(input_ids=input_ids, labels=labels, return_dict=True,use_cache=False)
+            output = model(input_ids=input_ids, labels=labels, return_dict=True, use_cache=False)
             loss = output.loss
 
             metric(output.logits, labels, loss)

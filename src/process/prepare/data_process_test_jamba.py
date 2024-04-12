@@ -6,94 +6,94 @@ import random
 
 from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
 
-question_prompt_en_choice_shot = """<|User|>:You are a medical doctor answering real-world medical exam questions. Select one correct answer from A to D.
+question_prompt_en_choice_shot = """<|startoftext|>user\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to D.
 Question: {question}
 Options:
 {options}
-<|Assistant|>:The correct answer is {answer}.<|endoftext|>
+<|startoftext|>assistant\nThe correct answer is {answer}.<|endoftext|>
 """
-question_prompt_en_choice = """<|User|>:You are a medical doctor answering real-world medical exam questions. Select one correct answer from A to D.
+question_prompt_en_choice = """<|startoftext|>user\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to D.
 Question: {question}
 Options:
 {options}
-<|Assistant|>:"""
+<|startoftext|>assistant\n"""
 
-question_prompt_en_pubmed_shot = """<|User|>:You are a medical doctor answering real-world medical exam questions. Select one correct answer from A to C. Choose ‘yes’ or ‘no’ if the evidence in the context supports a definitive answer. Choose ‘maybe’ if the evidence in the context does not support a definitive answer.
+question_prompt_en_pubmed_shot = """<|startoftext|>user\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to C. Choose ‘yes’ or ‘no’ if the evidence in the context supports a definitive answer. Choose ‘maybe’ if the evidence in the context does not support a definitive answer.
 Context: {context} 
 Question: {question}
 Options:
 {options}
-<|Assistant|>:The correct answer is {answer}.<|endoftext|>
+<|startoftext|>assistant\nThe correct answer is {answer}.<|endoftext|>
 """
 
-question_prompt_en_pubmed = """<|User|>:You are a medical doctor answering real-world medical exam questions. Select one correct answer from A to C. Choose ‘yes’ or ‘no’ if the evidence in the context supports a definitive answer. Choose ‘maybe’ if the evidence in the context does not support a definitive answer.
+question_prompt_en_pubmed = """<|startoftext|>user\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to C. Choose ‘yes’ or ‘no’ if the evidence in the context supports a definitive answer. Choose ‘maybe’ if the evidence in the context does not support a definitive answer.
 Context: {context} 
 Question: {question}
 Options:
 {options}
-<|Assistant|>:"""
+<|startoftext|>assistant\n"""
 
 
-question_prompt_zh_choice_shot = """<|User|>:您是一名医生，正在回答现实世界的医学考试问题。请从A到D中选择一个正确答案。
+question_prompt_zh_choice_shot = """<|startoftext|>user\n您是一名医生，正在回答现实世界的医学考试问题。请从A到D中选择一个正确答案。
 问题: {question}
 选项:
 {options}
-<|Assistant|>:正确答案是{answer}.<|endoftext|>
+<|startoftext|>assistant\n正确答案是{answer}.<|endoftext|>
 """
-question_prompt_zh_choice = """<|User|>:您是一名医生，正在回答现实世界的医学考试问题。请从A到D中选择一个正确答案。
+question_prompt_zh_choice = """<|startoftext|>user\n您是一名医生，正在回答现实世界的医学考试问题。请从A到D中选择一个正确答案。
 问题: {question}
 选项:
 {options}
-<|Assistant|>:"""
+<|startoftext|>assistant\n"""
 
 
-question_prompt_es_choice_shot = """<|User|>:Usted es un médico que responde preguntas de exámenes médicos del mundo real. Elija una respuesta correcta de la A a la D.
+question_prompt_es_choice_shot = """<|startoftext|>user\nUsted es un médico que responde preguntas de exámenes médicos del mundo real. Elija una respuesta correcta de la A a la D.
 pregunta: {question}
 Opciones:
 {options}
-<|Assistant|>:La respuesta correcta es {answer}.<|endoftext|>
+<|startoftext|>assistant\nLa respuesta correcta es {answer}.<|endoftext|>
 """
-question_prompt_es_choice = """<|User|>:Usted es un médico que responde preguntas de exámenes médicos del mundo real. Elija una respuesta correcta de la A a la D.
+question_prompt_es_choice = """<|startoftext|>user\nUsted es un médico que responde preguntas de exámenes médicos del mundo real. Elija una respuesta correcta de la A a la D.
 pregunta: {question}
 Opciones:
 {options}
-<|Assistant|>:"""
+<|startoftext|>assistant\n"""
 
-question_prompt_fr_choice_shot = """<|User|>:Vous êtes un médecin et répondez à des questions d'examen médical du monde réel. Veuillez choisir une bonne réponse de A à E.
+question_prompt_fr_choice_shot = """<|startoftext|>user\nVous êtes un médecin et répondez à des questions d'examen médical du monde réel. Veuillez choisir une bonne réponse de A à E.
 question: {question}
 Possibilités:
 {options}
-<|Assistant|>:La bonne réponse est {answer}.<|endoftext|>
+<|startoftext|>assistant\nLa bonne réponse est {answer}.<|endoftext|>
 """
-question_prompt_fr_choice = """<|User|>:Vous êtes un médecin et répondez à des questions d'examen médical du monde réel. Veuillez choisir une bonne réponse de A à E.
+question_prompt_fr_choice = """<|startoftext|>user\nVous êtes un médecin et répondez à des questions d'examen médical du monde réel. Veuillez choisir une bonne réponse de A à E.
 question: {question}
 Possibilités:
 {options}
-<|Assistant|>:"""
+<|startoftext|>assistant\n"""
 
-question_prompt_hi_choice_shot = """<|User|>:आप एक डॉक्टर हैं जो वास्तविक दुनिया की मेडिकल परीक्षा के सवालों का जवाब दे रहे हैं। कृपया A से D तक सही उत्तर चुनें।
+question_prompt_hi_choice_shot = """<|startoftext|>user\nआप एक डॉक्टर हैं जो वास्तविक दुनिया की मेडिकल परीक्षा के सवालों का जवाब दे रहे हैं। कृपया A से D तक सही उत्तर चुनें।
 सवाल: {question}
 विकल्प:
 {options}
-<|Assistant|>:सही उत्तर है{answer}.<|endoftext|>
+<|startoftext|>assistant\nसही उत्तर है{answer}.<|endoftext|>
 """
-question_prompt_hi_choice = """<|User|>:आप एक डॉक्टर हैं जो वास्तविक दुनिया की मेडिकल परीक्षा के सवालों का जवाब दे रहे हैं। कृपया A से D तक सही उत्तर चुनें।
+question_prompt_hi_choice = """<|startoftext|>user\nआप एक डॉक्टर हैं जो वास्तविक दुनिया की मेडिकल परीक्षा के सवालों का जवाब दे रहे हैं। कृपया A से D तक सही उत्तर चुनें।
 सवाल: {question}
 विकल्प:
 {options}
-<|Assistant|>:"""
+<|startoftext|>assistant\n"""
 
-question_prompt_ar_choice_shot = """<|User|>:أنت طبيب يجيب على أسئلة الفحص الطبي في العالم الحقيقي. الرجاء اختيار الإجابة الصحيحة من أ إلى د.
+question_prompt_ar_choice_shot = """<|startoftext|>user\nأنت طبيب يجيب على أسئلة الفحص الطبي في العالم الحقيقي. الرجاء اختيار الإجابة الصحيحة من أ إلى د.
 سؤال: {question}
 خيارات:
 {options}
-<|Assistant|>:{answer}الإجابة الصحيحة هي.<|endoftext|>
+<|startoftext|>assistant\n{answer}الإجابة الصحيحة هي.<|endoftext|>
 """
-question_prompt_ar_choice = """<|User|>:أنت طبيب يجيب على أسئلة الفحص الطبي في العالم الحقيقي. الرجاء اختيار الإجابة الصحيحة من أ إلى د.
+question_prompt_ar_choice = """<|startoftext|>user\nأنت طبيب يجيب على أسئلة الفحص الطبي في العالم الحقيقي. الرجاء اختيار الإجابة الصحيحة من أ إلى د.
 سؤال: {question}
 خيارات:
 {options}
-<|Assistant|>:"""
+<|startoftext|>assistant\n"""
 
 
     
