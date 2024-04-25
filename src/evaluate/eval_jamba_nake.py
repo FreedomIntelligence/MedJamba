@@ -1,7 +1,9 @@
 
 import torch
 import random
-from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
+from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig, JambaForCausalLM
+from accelerate import load_checkpoint_and_dispatch
+
 import re
 import argparse
 from accelerate import Accelerator
@@ -139,58 +141,63 @@ def generate_score(result_path, score_path, wrong_item_path):
     
 
 def generate_response(args):
-    accelerator = Accelerator()
+    # accelerator = Accelerator()
     
     model_path = args.model_path
-    accelerator.print(f'****************model_path:{model_path}******************')
-    
+    # accelerator.print(f'****************model_path:{model_path}******************')
+                                             
     tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=False, padding_side='left', eos_token='<|endoftext|>')
-    model = AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)
-    model = model.half().cuda()
+    model = AutoModelForCausalLM.from_pretrained(args.model_path, device_map="auto", torch_dtype=torch.bfloat16, attn_implementation="flash_attention_2", trust_remote_code=True)
     gen_kwargs = {'num_return_sequences': args.num_return, 'max_new_tokens': 128, 'min_new_tokens':2, 'do_sample':False}
     
     
     dataset = TestDataset(args.input_path, tokenizer)
     dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False, drop_last=False, collate_fn=dataset.collate_fn)
 
-    model = model.eval()
-    if dist.is_initialized():
-        accelerator.print(f'****************dist.get_world_size():{dist.get_world_size()}******************')
+    
+    # if accelerator.is_main_process:
+    #     accelerator.print(f'****************dist.get_world_size():{dist.get_world_size()}******************')
 
-    dataloader = accelerator.prepare(dataloader)
-    accelerator.print(f'******************load_model from {model_path}******************')
+    # model, dataloader = accelerator.prepare(model, dataloader)
+    # accelerator.print(f'******************load_model from {model_path}******************')
 
-    if accelerator.is_main_process:
-        fp = open(args.output_path,'w')
+
+    # if accelerator.is_main_process:
+    #     print("所有模型参数:")
+    #     for name, param in model.named_parameters():
+    #         print(f"{name}: {param.size()}")
+    fp = open(args.output_path,'w')
         
-    dataloader_iterator = tqdm(dataloader, total=len(dataloader)) if accelerator.is_main_process else dataloader
+    dataloader_iterator = tqdm(dataloader, total=len(dataloader)) 
+    
     for batch in dataloader_iterator:
         batch_input_ids = batch["input_ids"]
         batch_data = batch["data"]
-        batch_output_ids = accelerator.unwrap_model(model).generate(batch_input_ids, **gen_kwargs)
+        
+        batch_output_ids = model.generate(batch_input_ids, **gen_kwargs)
         batch_responses = get_response(batch_input_ids, batch_output_ids, tokenizer, args.num_return)
         
         
-        if dist.is_initialized():
-            all_batch_data =  [None] * dist.get_world_size()
-            all_batch_responses =  [None] * dist.get_world_size()
-            dist.all_gather_object(all_batch_responses, batch_responses)
-            dist.all_gather_object(all_batch_data, batch_data)
-        else:
-            all_batch_data = [batch_data, ]
-            all_batch_responses = [batch_responses, ]
+        # if dist.is_initialized():
+        #     all_batch_data =  [None] * dist.get_world_size()
+        #     all_batch_responses =  [None] * dist.get_world_size()
+        #     dist.all_gather_object(all_batch_responses, batch_responses)
+        #     dist.all_gather_object(all_batch_data, batch_data)
+        # else:
+        #     all_batch_data = [batch_data, ]
+        #     all_batch_responses = [batch_responses, ]
                 
-        all_data = [item for sublist in all_batch_data for item in sublist]
-        all_response = [item for sublist in all_batch_responses for item in sublist]
+        # all_data = [item for sublist in all_batch_data for item in sublist]
+        # all_response = [item for sublist in all_batch_responses for item in sublist]
             
-        for data, responses in zip(all_data, all_response):
+        for data, responses in zip(batch_data, batch_responses):
             answer_list = []
             for response in responses:
                 answer_list.append(response)
             data['model_answer'] = answer_list
-            if accelerator.is_main_process:
-                fp.write(json.dumps(data, ensure_ascii=False) +'\n')
-                fp.flush()
+            # if accelerator.is_main_process:
+            fp.write(json.dumps(data, ensure_ascii=False) +'\n')
+            fp.flush()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

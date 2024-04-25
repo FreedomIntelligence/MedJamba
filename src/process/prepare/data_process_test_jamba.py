@@ -6,100 +6,99 @@ import random
 
 from transformers import AutoModelForCausalLM, AutoTokenizer, AutoModel
 
-question_prompt_en_choice_shot = """<|startoftext|>user\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to D.
+question_prompt_en_choice_shot = """<|User|>:\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to D.
 Question: {question}
 Options:
 {options}
-<|startoftext|>assistant\nThe correct answer is {answer}.<|endoftext|>
+<|Assistant|>:\nThe correct answer is {answer}.<|endoftext|>
 """
-question_prompt_en_choice = """<|startoftext|>user\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to D.
+question_prompt_en_choice = """<|User|>:\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to D.
 Question: {question}
 Options:
 {options}
-<|startoftext|>assistant\n"""
+<|Assistant|>:\n"""
 
-question_prompt_en_pubmed_shot = """<|startoftext|>user\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to C. Choose ‘yes’ or ‘no’ if the evidence in the context supports a definitive answer. Choose ‘maybe’ if the evidence in the context does not support a definitive answer.
+question_prompt_en_pubmed_shot = """<|User|>:\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to C. Choose ‘yes’ or ‘no’ if the evidence in the context supports a definitive answer. Choose ‘maybe’ if the evidence in the context does not support a definitive answer.
 Context: {context} 
 Question: {question}
 Options:
 {options}
-<|startoftext|>assistant\nThe correct answer is {answer}.<|endoftext|>
+<|Assistant|>:\nThe correct answer is {answer}.<|endoftext|>
 """
 
-question_prompt_en_pubmed = """<|startoftext|>user\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to C. Choose ‘yes’ or ‘no’ if the evidence in the context supports a definitive answer. Choose ‘maybe’ if the evidence in the context does not support a definitive answer.
+question_prompt_en_pubmed = """<|User|>:\nYou are a medical doctor answering real-world medical exam questions. Select one correct answer from A to C. Choose ‘yes’ or ‘no’ if the evidence in the context supports a definitive answer. Choose ‘maybe’ if the evidence in the context does not support a definitive answer.
 Context: {context} 
 Question: {question}
 Options:
 {options}
-<|startoftext|>assistant\n"""
+<|Assistant|>:\n"""
 
 
-question_prompt_zh_choice_shot = """<|startoftext|>user\n您是一名医生，正在回答现实世界的医学考试问题。请从A到D中选择一个正确答案。
+question_prompt_zh_choice_shot = """<|User|>:\n您是一名医生，正在回答现实世界的医学考试问题。请从A到D中选择一个正确答案。
 问题: {question}
 选项:
 {options}
-<|startoftext|>assistant\n正确答案是{answer}.<|endoftext|>
+<|Assistant|>:\n正确答案是{answer}.<|endoftext|>
 """
-question_prompt_zh_choice = """<|startoftext|>user\n您是一名医生，正在回答现实世界的医学考试问题。请从A到D中选择一个正确答案。
+question_prompt_zh_choice = """<|User|>:\n您是一名医生，正在回答现实世界的医学考试问题。请从A到D中选择一个正确答案。
 问题: {question}
 选项:
 {options}
-<|startoftext|>assistant\n"""
+<|Assistant|>:\n"""
 
 
-question_prompt_es_choice_shot = """<|startoftext|>user\nUsted es un médico que responde preguntas de exámenes médicos del mundo real. Elija una respuesta correcta de la A a la D.
+question_prompt_es_choice_shot = """<|User|>:\nUsted es un médico que responde preguntas de exámenes médicos del mundo real. Elija una respuesta correcta de la A a la D.
 pregunta: {question}
 Opciones:
 {options}
-<|startoftext|>assistant\nLa respuesta correcta es {answer}.<|endoftext|>
+<|Assistant|>:\nLa respuesta correcta es {answer}.<|endoftext|>
 """
-question_prompt_es_choice = """<|startoftext|>user\nUsted es un médico que responde preguntas de exámenes médicos del mundo real. Elija una respuesta correcta de la A a la D.
+question_prompt_es_choice = """<|User|>:\nUsted es un médico que responde preguntas de exámenes médicos del mundo real. Elija una respuesta correcta de la A a la D.
 pregunta: {question}
 Opciones:
 {options}
-<|startoftext|>assistant\n"""
+<|Assistant|>:\n"""
 
-question_prompt_fr_choice_shot = """<|startoftext|>user\nVous êtes un médecin et répondez à des questions d'examen médical du monde réel. Veuillez choisir une bonne réponse de A à E.
+question_prompt_fr_choice_shot = """<|User|>:\nVous êtes un médecin et répondez à des questions d'examen médical du monde réel. Veuillez choisir une bonne réponse de A à E.
 question: {question}
 Possibilités:
 {options}
-<|startoftext|>assistant\nLa bonne réponse est {answer}.<|endoftext|>
+<|Assistant|>:\nLa bonne réponse est {answer}.<|endoftext|>
 """
-question_prompt_fr_choice = """<|startoftext|>user\nVous êtes un médecin et répondez à des questions d'examen médical du monde réel. Veuillez choisir une bonne réponse de A à E.
+question_prompt_fr_choice = """<|User|>:\nVous êtes un médecin et répondez à des questions d'examen médical du monde réel. Veuillez choisir une bonne réponse de A à E.
 question: {question}
 Possibilités:
 {options}
-<|startoftext|>assistant\n"""
+<|Assistant|>:\n"""
 
-question_prompt_hi_choice_shot = """<|startoftext|>user\nआप एक डॉक्टर हैं जो वास्तविक दुनिया की मेडिकल परीक्षा के सवालों का जवाब दे रहे हैं। कृपया A से D तक सही उत्तर चुनें।
+question_prompt_hi_choice_shot = """<|User|>:\nआप एक डॉक्टर हैं जो वास्तविक दुनिया की मेडिकल परीक्षा के सवालों का जवाब दे रहे हैं। कृपया A से D तक सही उत्तर चुनें।
 सवाल: {question}
 विकल्प:
 {options}
-<|startoftext|>assistant\nसही उत्तर है{answer}.<|endoftext|>
+<|Assistant|>:\nसही उत्तर है{answer}.<|endoftext|>
 """
-question_prompt_hi_choice = """<|startoftext|>user\nआप एक डॉक्टर हैं जो वास्तविक दुनिया की मेडिकल परीक्षा के सवालों का जवाब दे रहे हैं। कृपया A से D तक सही उत्तर चुनें।
+question_prompt_hi_choice = """<|User|>:\nआप एक डॉक्टर हैं जो वास्तविक दुनिया की मेडिकल परीक्षा के सवालों का जवाब दे रहे हैं। कृपया A से D तक सही उत्तर चुनें।
 सवाल: {question}
 विकल्प:
 {options}
-<|startoftext|>assistant\n"""
+<|Assistant|>:\n"""
 
-question_prompt_ar_choice_shot = """<|startoftext|>user\nأنت طبيب يجيب على أسئلة الفحص الطبي في العالم الحقيقي. الرجاء اختيار الإجابة الصحيحة من أ إلى د.
+question_prompt_ar_choice_shot = """<|User|>:\nأنت طبيب يجيب على أسئلة الفحص الطبي في العالم الحقيقي. الرجاء اختيار الإجابة الصحيحة من أ إلى د.
 سؤال: {question}
 خيارات:
 {options}
-<|startoftext|>assistant\n{answer}الإجابة الصحيحة هي.<|endoftext|>
+<|Assistant|>:\n{answer}الإجابة الصحيحة هي.<|endoftext|>
 """
-question_prompt_ar_choice = """<|startoftext|>user\nأنت طبيب يجيب على أسئلة الفحص الطبي في العالم الحقيقي. الرجاء اختيار الإجابة الصحيحة من أ إلى د.
+question_prompt_ar_choice = """<|User|>:\nأنت طبيب يجيب على أسئلة الفحص الطبي في العالم الحقيقي. الرجاء اختيار الإجابة الصحيحة من أ إلى د.
 سؤال: {question}
 خيارات:
 {options}
-<|startoftext|>assistant\n"""
+<|Assistant|>:\n"""
 
 
-    
 def preprocess(args):
     data_final = []
-    with open(args.data_path, 'r') as file:
+    with open(args.data_path, "r") as file:
         data = json.load(file)
     grouped_items = {}
     for item in data:
@@ -109,33 +108,33 @@ def preprocess(args):
         grouped_items[source].append(item)
 
     for source, items in grouped_items.items():
-        debug = True 
-        print(f'*********************{source}****************************')
-        if source in ['cmb-single', 'cmexam', 'cmmlu-medical', 'medqa-mcmle']:
+        debug = True
+        print(f"*********************{source}****************************")
+        if source in ["cmb-single", "cmexam", "cmmlu-medical", "medqa-mcmle"]:
             few_shot_prompt = question_prompt_zh_choice_shot
-            question_prompt = question_prompt_en_choice
-        elif source in ['medmcqa', 'medqa-usmle', 'mmlu-medical']:
+            question_prompt = question_prompt_zh_choice
+        elif source in ["medmcqa", "medqa-usmle", "mmlu-medical"]:
             few_shot_prompt = question_prompt_en_choice_shot
             question_prompt = question_prompt_en_choice
-        elif source in ['headqa']:
+        elif source in ["headqa"]:
             few_shot_prompt = question_prompt_es_choice_shot
             question_prompt = question_prompt_es_choice
-        elif source in ['frenchmedmcqa']:
+        elif source in ["frenchmedmcqa"]:
             few_shot_prompt = question_prompt_fr_choice_shot
             question_prompt = question_prompt_fr_choice
-        elif source in ['mmlu-medical-ar']:
+        elif source in ["mmlu-medical-ar"]:
             few_shot_prompt = question_prompt_ar_choice_shot
             question_prompt = question_prompt_ar_choice
-        elif source in ['mmlu-medical-hi']:
+        elif source in ["mmlu-medical-hi"]:
             few_shot_prompt = question_prompt_hi_choice_shot
             question_prompt = question_prompt_hi_choice
         else:
             few_shot_prompt = question_prompt_en_pubmed_shot
             question_prompt = question_prompt_en_pubmed
-            
+
         for item in items:
-            random_samples = random.sample(items, args.few_shot+1)
-            question = ''
+            random_samples = random.sample(items, args.few_shot + 1)
+            question = ""
             tmp_dict = {}
             # in case item in random_samples
             if item in random_samples:
@@ -149,30 +148,30 @@ def preprocess(args):
                 if len(question) + real_question_len + len(sample) < 4096:
                     question += sample
             question += real_question
-            if len(question)>4096:
+            if len(question) > 4096:
                 continue
             if debug:
                 print(question)
-                debug=False
-            
-            tmp_dict['source_question'] = item['question']
-            tmp_dict['source_option'] = item['options']
-            tmp_dict['question'] = question
-            tmp_dict['answer'] = item['answer'][1]
-            tmp_dict['source'] = item['source']
+                debug = False
+
+            tmp_dict["source_question"] = item["question"]
+            tmp_dict["source_option"] = item["options"]
+            tmp_dict["question"] = question
+            tmp_dict["answer"] = item["answer"][1]
+            tmp_dict["source"] = item["source"]
             data_final.append(tmp_dict)
-                
-    with open(args.save_path, 'w', encoding='utf-8') as file:
+
+    with open(args.save_path, "w", encoding="utf-8") as file:
         json.dump(data_final, file, ensure_ascii=False, indent=2)
-    
-        
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Args of Data Preprocess')
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Args of Data Preprocess")
 
     # Model Args
-    parser.add_argument('--save_path', default='', type=str)
-    parser.add_argument('--data_path', default='', type=str)
-    parser.add_argument('--few_shot', default='', type=int)
+    parser.add_argument("--save_path", default="", type=str)
+    parser.add_argument("--data_path", default="", type=str)
+    parser.add_argument("--few_shot", default="", type=int)
     args = parser.parse_args()
 
-    preprocess(args)  
+    preprocess(args)
