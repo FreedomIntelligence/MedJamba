@@ -176,6 +176,9 @@ Multilingual Medical Model Based On Jamba
    
    </details>
 
+## Results
+
+- Long Context Capability Evaluation and new Medical Benchmark
 
 ##  Acknowledgment
 
