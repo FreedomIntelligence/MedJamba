@@ -6,6 +6,7 @@ Multilingual Medical Model Based On Jamba
 ![Python 3.10](https://img.shields.io/badge/Python-3.10-lightblue) ![Pytorch 2.1.2](https://img.shields.io/badge/PyTorch-2.1.2-lightblue) ![transformers](https://img.shields.io/badge/transformers-4.34.0.dev0%2B-lightblue) ![accelerate](https://img.shields.io/badge/accelerate-0.22-lightblue)
 </center>
 
+![Apollo](assets/apollo_medium_final.png)
 
 ## 🌈 Update
 
@@ -16,7 +17,7 @@ Multilingual Medical Model Based On Jamba
 ## Results
    🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-0.5B" target="_blank">Apollo-0.5B</a> • 🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-1.8B" target="_blank">Apollo-1.8B</a> • 🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-2B" target="_blank">Apollo-2B</a>  • 🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-6B" target="_blank">Apollo-6B</a> • 🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-7B" target="_blank">Apollo-7B</a>  • 🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-34B" target="_blank">Apollo-34B</a> • 🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-72B" target="_blank">Apollo-72B</a>  
    
-   🤗 <a href="https://huggingface.co/FreedomIntelligence/MedJamba" target="_blank">Apollo-53B (MedJamba)</a>
+   🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-MedJamba" target="_blank">MedJamba</a>
 
    🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-0.5B-GGUF" target="_blank">Apollo-0.5B-GGUF</a> • 🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-2B-GGUF" target="_blank">Apollo-2B-GGUF</a>  • 🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-6B-GGUF" target="_blank">Apollo-6B-GGUF</a> • 🤗 <a href="https://huggingface.co/FreedomIntelligence/Apollo-7B-GGUF" target="_blank">Apollo-7B-GGUF</a> 
    
